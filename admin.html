@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>内容管理 · 给你的胶片旅行</title>
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <main class="admin-shell">
+      <header class="admin-header">
+        <div>
+          <p class="eyebrow">Content Studio</p>
+          <h1>内容管理入口</h1>
+          <p>修改文字、替换照片，然后一键保存到 GitHub Pages。保存后通常几十秒内生效。</p>
+        </div>
+        <a href="index.html" class="ghost-link">返回页面</a>
+      </header>
+
+      <section class="panel auth-panel">
+        <h2>GitHub 保存设置</h2>
+        <div class="grid two">
+          <label>仓库
+            <input id="repoInput" value="Carrol-Shield/film-journey-letter" autocomplete="off" />
+          </label>
+          <label>分支
+            <input id="branchInput" value="main" autocomplete="off" />
+          </label>
+        </div>
+        <label>GitHub Token
+          <input id="tokenInput" type="password" placeholder="粘贴 fine-grained token，仅当前浏览器会话使用" autocomplete="off" />
+        </label>
+        <p class="hint">Token 建议只授权这个仓库的 Contents: Read and write。不要把 token 发给别人，页面不会保存它。</p>
+      </section>
+
+      <section class="panel">
+        <h2>页面标题</h2>
+        <div class="grid two">
+          <label>浏览器标题
+            <input data-path="meta.title" />
+          </label>
+          <label>页面描述
+            <input data-path="meta.description" />
+          </label>
+          <label>小眉标
+            <input data-path="hero.eyebrow" />
+          </label>
+          <label>主标题
+            <input data-path="hero.title" />
+          </label>
+        </div>
+        <label>小标题 / 说明文字
+          <textarea data-path="hero.subtitle" rows="3"></textarea>
+        </label>
+        <div class="grid two">
+          <label>音乐显示名
+            <input data-path="hero.musicLabel" />
+          </label>
+          <label>音乐文件路径
+            <input data-path="hero.musicSrc" />
+          </label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-title-row">
+          <h2>时间轴</h2>
+          <button type="button" id="addTimeline">添加地点</button>
+        </div>
+        <div id="timelineEditor" class="stack"></div>
+      </section>
+
+      <section class="panel">
+        <h2>信件</h2>
+        <div class="grid two">
+          <label>信件区小眉标
+            <input data-path="letter.sectionEyebrow" />
+          </label>
+          <label>信件区标题
+            <input data-path="letter.sectionTitle" />
+          </label>
+          <label>按钮文字
+            <input data-path="letter.buttonText" />
+          </label>
+          <label>信纸日期/提示
+            <input data-path="letter.paperDate" />
+          </label>
+          <label>弹窗标题/称呼
+            <input data-path="letter.dialogTitle" />
+          </label>
+        </div>
+        <label>信件全部正文
+          <textarea data-path="letter.body" rows="12"></textarea>
+        </label>
+      </section>
+
+      <section class="actions">
+        <button type="button" id="reloadContent" class="secondary">重新读取线上内容</button>
+        <button type="button" id="saveContent">保存并更新网站</button>
+      </section>
+
+      <pre id="status" class="status">准备就绪。</pre>
+    </main>
+
+    <template id="timelineTemplate">
+      <article class="editor-card timeline-card">
+        <div class="card-head">
+          <strong class="item-title"></strong>
+          <button type="button" class="danger remove-item">删除地点</button>
+        </div>
+        <div class="grid two">
+          <label>编号
+            <input data-field="id" />
+          </label>
+          <label>日期/时间
+            <input data-field="date" />
+          </label>
+          <label>城市/地点
+            <input data-field="place" />
+          </label>
+          <label class="checkline">
+            <input type="checkbox" data-field="reverse" /> 第二组排版方向
+          </label>
+        </div>
+        <label>这段文字
+          <textarea data-field="text" rows="4"></textarea>
+        </label>
+        <div class="photo-editor"></div>
+        <button type="button" class="secondary add-photo">添加照片</button>
+      </article>
+    </template>
+
+    <template id="photoTemplate">
+      <div class="photo-row">
+        <label>照片路径
+          <input data-field="src" />
+        </label>
+        <label>照片说明
+          <input data-field="alt" />
+        </label>
+        <label>替换/上传照片
+          <input type="file" data-field="file" accept="image/*" />
+        </label>
+        <button type="button" class="danger remove-photo">删除</button>
+      </div>
+    </template>
+
+    <script src="admin.js"></script>
+  </body>
+</html>

@@ -11,72 +11,35 @@
     <main class="page-shell">
       <section class="hero" aria-labelledby="page-title">
         <div class="hero-copy">
-          <p class="eyebrow">Our Little Journey</p>
+          <p class="eyebrow" id="heroEyebrow">Our Little Journey</p>
           <h1 id="page-title">给你的胶片旅行</h1>
-          <p class="hero-text">把音乐、城市、照片和想说的话收进同一页。等真实地点和文字补上后，它会变成只属于你们的一条时间线。</p>
+          <p class="hero-text" id="heroText">把音乐、城市、照片和想说的话收进同一页。</p>
         </div>
         <div class="music-panel" aria-label="音乐播放器">
-          <span class="music-label">灰色</span>
-          <audio controls preload="metadata">
-            <source src="gray.mp3" type="audio/mpeg" />
+          <span class="music-label" id="musicLabel">灰色</span>
+          <audio controls preload="metadata" id="musicAudio">
+            <source id="musicSource" src="gray.mp3" type="audio/mpeg" />
             当前浏览器不支持音频播放。
           </audio>
         </div>
       </section>
 
-      <section class="timeline" aria-label="旅行时间轴">
-        <article class="timeline-item">
-          <div class="time-mark"><span>01</span></div>
-          <div class="story">
-            <p class="date">2024.04 · 傍晚</p>
-            <h2>上海 · 梧桐树下</h2>
-            <p>风从街角拐过来，旧建筑的窗框像一格格胶片。我们慢慢走，像把一天拉长了一点点。</p>
-            <div class="photo-strip">
-              <figure><img src="photos/1.jpg" alt="上海梧桐树下的旅行照片" /></figure>
-              <figure><img src="photos/2.jpg" alt="上海傍晚街道的旅行照片" /></figure>
-            </div>
-          </div>
-        </article>
-
-        <article class="timeline-item">
-          <div class="time-mark"><span>02</span></div>
-          <div class="story">
-            <p class="date">2024.08 · 雨后</p>
-            <h2>杭州 · 西湖边</h2>
-            <p>雨停以后，湖面像被悄悄擦亮。照片里有很多留白，刚好放得下没有说出口的喜欢。</p>
-            <div class="photo-strip photo-strip--reverse">
-              <figure><img src="photos/3.jpg" alt="杭州西湖边的旅行照片" /></figure>
-              <figure><img src="photos/4.jpg" alt="杭州雨后街景的旅行照片" /></figure>
-            </div>
-          </div>
-        </article>
-
-        <article class="timeline-item">
-          <div class="time-mark"><span>03</span></div>
-          <div class="story">
-            <p class="date">2025.01 · 夜色</p>
-            <h2>成都 · 小巷灯火</h2>
-            <p>夜晚的灯很柔，热气从店门口冒出来。那一刻的普通，因为一起经历过，就变得很珍贵。</p>
-            <div class="photo-strip">
-              <figure><img src="photos/2.jpg" alt="成都小巷灯火的旅行照片" /></figure>
-              <figure><img src="photos/4.jpg" alt="成都夜色中的旅行照片" /></figure>
-            </div>
-          </div>
-        </article>
-      </section>
+      <section class="timeline" id="timeline" aria-label="旅行时间轴"></section>
 
       <section class="letter-section" aria-labelledby="letter-title">
-        <p class="eyebrow">A Letter</p>
+        <p class="eyebrow" id="letterEyebrow">A Letter</p>
         <h2 id="letter-title">还有一封想慢慢读给你的信</h2>
         <button class="letter-button" type="button" id="openLetter">打开这封信</button>
       </section>
     </main>
 
+    <a class="admin-entry" href="admin.html" aria-label="打开内容管理入口">管理</a>
+
     <div class="modal" id="letterModal" aria-hidden="true">
       <div class="modal-backdrop" data-close-letter></div>
       <section class="letter-paper" role="dialog" aria-modal="true" aria-labelledby="letterDialogTitle">
         <button class="close-button" type="button" id="closeLetter" aria-label="关闭情书">×</button>
-        <p class="paper-date">写给你</p>
+        <p class="paper-date" id="paperDate">写给你</p>
         <h2 id="letterDialogTitle">亲爱的你</h2>
         <div class="letter-content" id="letterContent">正在展开这封信……</div>
       </section>

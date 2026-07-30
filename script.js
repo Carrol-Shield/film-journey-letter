@@ -1,29 +1,130 @@
-const openLetterButton = document.querySelector("#openLetter");
-const closeLetterButton = document.querySelector("#closeLetter");
-const letterModal = document.querySelector("#letterModal");
-const letterContent = document.querySelector("#letterContent");
-const photoLightbox = document.querySelector("#photoLightbox");
-const closePhotoButton = document.querySelector("#closePhoto");
-const lightboxImage = document.querySelector("#lightboxImage");
+const fallbackContent = {
+  meta: {
+    title: "给你的胶片旅行",
+    description: "一页关于音乐、照片、时间轴和一封信的温柔纪念网页。",
+  },
+  hero: {
+    eyebrow: "Our Little Journey",
+    title: "给你的胶片旅行",
+    subtitle: "把音乐、城市、照片和想说的话收进同一页。",
+    musicLabel: "灰色",
+    musicSrc: "gray.mp3",
+  },
+  timeline: [],
+  letter: {
+    sectionEyebrow: "A Letter",
+    sectionTitle: "还有一封想慢慢读给你的信",
+    buttonText: "打开这封信",
+    paperDate: "写给你",
+    dialogTitle: "亲爱的你",
+    body: "亲爱的你：\n\n这里先放一封示例信。",
+  },
+};
 
-const fallbackLetter = `有些话先放在这里，等你把真正想写的内容填进 loveletter.txt。
-
-我想把一路上那些很小的瞬间都记下来：一起停下来的街口，照片里没有拍完整的天空，还有音乐响起时忽然安静下来的心情。
-
-谢谢你出现在这些日子里。愿以后每一次普通的出发，都能因为彼此在身边，变成值得收藏的旅行。
-
-一直想念你的人`;
-
+let pageContent = fallbackContent;
 let lastFocusedElement = null;
 
-async function loadLetter() {
+const $ = (selector) => document.querySelector(selector);
+const timelineEl = $("#timeline");
+const openLetterButton = $("#openLetter");
+const closeLetterButton = $("#closeLetter");
+const letterModal = $("#letterModal");
+const letterContent = $("#letterContent");
+const photoLightbox = $("#photoLightbox");
+const closePhotoButton = $("#closePhoto");
+const lightboxImage = $("#lightboxImage");
+
+function text(value, fallback = "") {
+  return typeof value === "string" && value.trim() ? value : fallback;
+}
+
+function setText(selector, value) {
+  const element = $(selector);
+  if (element) element.textContent = value || "";
+}
+
+function renderTimeline(items = []) {
+  timelineEl.innerHTML = "";
+  items.forEach((item, index) => {
+    const article = document.createElement("article");
+    article.className = "timeline-item";
+
+    const marker = document.createElement("div");
+    marker.className = "time-mark";
+    const number = document.createElement("span");
+    number.textContent = text(item.id, String(index + 1).padStart(2, "0"));
+    marker.append(number);
+
+    const story = document.createElement("div");
+    story.className = "story";
+    story.innerHTML = `
+      <p class="date"></p>
+      <h2></h2>
+      <p class="story-copy"></p>
+      <div class="photo-strip${item.reverse ? " photo-strip--reverse" : ""}"></div>
+    `;
+    story.querySelector(".date").textContent = item.date || "";
+    story.querySelector("h2").textContent = item.place || "";
+    story.querySelector(".story-copy").textContent = item.text || "";
+
+    const strip = story.querySelector(".photo-strip");
+    (item.photos || []).forEach((photo) => {
+      const figure = document.createElement("figure");
+      const img = document.createElement("img");
+      img.src = photo.src || "";
+      img.alt = photo.alt || item.place || "旅行照片";
+      img.tabIndex = 0;
+      img.addEventListener("click", () => openPhoto(img));
+      img.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openPhoto(img);
+        }
+      });
+      figure.append(img);
+      strip.append(figure);
+    });
+
+    article.append(marker, story);
+    timelineEl.append(article);
+  });
+}
+
+function renderContent(content) {
+  pageContent = content;
+  document.title = text(content.meta?.title, fallbackContent.meta.title);
+  const description = document.querySelector('meta[name="description"]');
+  if (description) description.content = text(content.meta?.description, fallbackContent.meta.description);
+
+  setText("#heroEyebrow", text(content.hero?.eyebrow, fallbackContent.hero.eyebrow));
+  setText("#page-title", text(content.hero?.title, fallbackContent.hero.title));
+  setText("#heroText", text(content.hero?.subtitle, fallbackContent.hero.subtitle));
+  setText("#musicLabel", text(content.hero?.musicLabel, fallbackContent.hero.musicLabel));
+  const source = $("#musicSource");
+  const audio = $("#musicAudio");
+  if (source && audio) {
+    const nextSrc = text(content.hero?.musicSrc, fallbackContent.hero.musicSrc);
+    if (source.getAttribute("src") !== nextSrc) {
+      source.setAttribute("src", nextSrc);
+      audio.load();
+    }
+  }
+
+  renderTimeline(content.timeline || []);
+  setText("#letterEyebrow", text(content.letter?.sectionEyebrow, fallbackContent.letter.sectionEyebrow));
+  setText("#letter-title", text(content.letter?.sectionTitle, fallbackContent.letter.sectionTitle));
+  setText("#openLetter", text(content.letter?.buttonText, fallbackContent.letter.buttonText));
+  setText("#paperDate", text(content.letter?.paperDate, fallbackContent.letter.paperDate));
+  setText("#letterDialogTitle", text(content.letter?.dialogTitle, fallbackContent.letter.dialogTitle));
+}
+
+async function loadContent() {
   try {
-    const response = await fetch("loveletter.txt", { cache: "no-store" });
-    if (!response.ok) throw new Error("Letter file is unavailable.");
-    const text = (await response.text()).trim();
-    letterContent.textContent = text || fallbackLetter;
+    const response = await fetch("content.json", { cache: "no-store" });
+    if (!response.ok) throw new Error("content.json unavailable");
+    renderContent(await response.json());
   } catch (error) {
-    letterContent.textContent = fallbackLetter;
+    renderContent(fallbackContent);
   }
 }
 
@@ -32,7 +133,7 @@ function openLetter() {
   letterModal.classList.add("is-open");
   letterModal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
-  loadLetter();
+  letterContent.textContent = text(pageContent.letter?.body, fallbackContent.letter.body);
   closeLetterButton.focus();
 }
 
@@ -64,25 +165,14 @@ closeLetterButton.addEventListener("click", closeLetter);
 letterModal.addEventListener("click", (event) => {
   if (event.target.matches("[data-close-letter]")) closeLetter();
 });
-
-document.querySelectorAll(".photo-strip img").forEach((image) => {
-  image.tabIndex = 0;
-  image.addEventListener("click", () => openPhoto(image));
-  image.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      openPhoto(image);
-    }
-  });
-});
-
 closePhotoButton.addEventListener("click", closePhoto);
 photoLightbox.addEventListener("click", (event) => {
   if (event.target === photoLightbox) closePhoto();
 });
-
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (letterModal.classList.contains("is-open")) closeLetter();
   if (photoLightbox.classList.contains("is-open")) closePhoto();
 });
+
+loadContent();

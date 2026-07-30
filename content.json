@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "title": "给你的胶片旅行",
+    "description": "一页关于音乐、照片、时间轴和一封信的温柔纪念网页。"
+  },
+  "hero": {
+    "eyebrow": "Our Little Journey",
+    "title": "给你的胶片旅行",
+    "subtitle": "把音乐、城市、照片和想说的话收进同一页。等真实地点和文字补上后，它会变成只属于你们的一条时间线。",
+    "musicLabel": "灰色",
+    "musicSrc": "gray.mp3"
+  },
+  "timeline": [
+    {
+      "id": "01",
+      "date": "2024.04 · 傍晚",
+      "place": "上海 · 梧桐树下",
+      "text": "风从街角拐过来，旧建筑的窗框像一格格胶片。我们慢慢走，像把一天拉长了一点点。",
+      "reverse": false,
+      "photos": [
+        { "src": "photos/1.jpg", "alt": "上海梧桐树下的旅行照片" },
+        { "src": "photos/2.jpg", "alt": "上海傍晚街道的旅行照片" }
+      ]
+    },
+    {
+      "id": "02",
+      "date": "2024.08 · 雨后",
+      "place": "杭州 · 西湖边",
+      "text": "雨停以后，湖面像被悄悄擦亮。照片里有很多留白，刚好放得下没有说出口的喜欢。",
+      "reverse": true,
+      "photos": [
+        { "src": "photos/3.jpg", "alt": "杭州西湖边的旅行照片" },
+        { "src": "photos/4.jpg", "alt": "杭州雨后街景的旅行照片" }
+      ]
+    },
+    {
+      "id": "03",
+      "date": "2025.01 · 夜色",
+      "place": "成都 · 小巷灯火",
+      "text": "夜晚的灯很柔，热气从店门口冒出来。那一刻的普通，因为一起经历过，就变得很珍贵。",
+      "reverse": false,
+      "photos": [
+        { "src": "photos/2.jpg", "alt": "成都小巷灯火的旅行照片" },
+        { "src": "photos/4.jpg", "alt": "成都夜色中的旅行照片" }
+      ]
+    }
+  ],
+  "letter": {
+    "sectionEyebrow": "A Letter",
+    "sectionTitle": "还有一封想慢慢读给你的信",
+    "buttonText": "打开这封信",
+    "paperDate": "写给你",
+    "dialogTitle": "亲爱的你",
+    "body": "亲爱的你：\n\n这里先放一封示例信。等你把真正想写的文字发给我，或者直接替换这个 loveletter.txt，网页里的信纸就会显示新的内容。\n\n我想把我们走过的地方都慢慢存起来。不是因为每一天都盛大，而是因为和你有关的普通瞬间，也会在回忆里发光。\n\n愿这首歌响起的时候，你能想起某一个温柔的傍晚，想起有人认真地把你放在心上。\n\n一直想念你的人"
+  },
+  "admin": {
+    "repository": "Carrol-Shield/film-journey-letter",
+    "branch": "main"
+  }
+}

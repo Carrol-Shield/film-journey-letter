@@ -120,3 +120,22 @@ figure img { width: 100%; height: clamp(260px, 40vw, 520px); display: block; obj
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
 }
+.admin-entry {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 12;
+  padding: 8px 11px;
+  color: rgba(255, 250, 243, 0.88);
+  background: rgba(45, 42, 38, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+}
+
+.admin-entry:hover,
+.admin-entry:focus-visible {
+  background: rgba(111, 47, 60, 0.72);
+}
