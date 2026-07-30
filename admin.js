@@ -1,4 +1,4 @@
-const state = { content: null, photoFiles: new Map() };
+const state = { content: null };
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const statusEl = $("#status");
@@ -117,7 +117,6 @@ async function loadContent() {
   const response = await fetch(`content.json?ts=${Date.now()}`);
   if (!response.ok) throw new Error("读取 content.json 失败。请确认网站已经发布。");
   state.content = await response.json();
-  state.photoFiles.clear();
   renderForm();
   setStatus("已读取线上内容。修改后点击“保存并更新网站”。");
 }
@@ -174,12 +173,7 @@ function renderPhotoEditor(container, item, itemIndex) {
     const node = template.content.firstElementChild.cloneNode(true);
     $('[data-field="src"]', node).value = photo.src || "";
     $('[data-field="alt"]', node).value = photo.alt || "";
-    const fileInput = $('[data-field="file"]', node);
-    const key = `${itemIndex}-${photoIndex}`;
-    fileInput.addEventListener("change", () => {
-      if (fileInput.files[0]) state.photoFiles.set(key, fileInput.files[0]);
-      else state.photoFiles.delete(key);
-    });
+
     $(".remove-photo", node).addEventListener("click", () => {
       item.photos.splice(photoIndex, 1);
       renderTimelineEditor();
@@ -202,8 +196,8 @@ function readTimelineEditor() {
         src: $('[data-field="src"]', row).value,
         alt: $('[data-field="alt"]', row).value,
       };
-      const key = `${itemIndex}-${photoIndex}`;
-      if (state.photoFiles.has(key)) photo.file = state.photoFiles.get(key);
+      const file = $('[data-field="file"]', row).files[0];
+      if (file) photo.file = file;
       item.photos.push(photo);
     });
     return item;
@@ -233,7 +227,6 @@ async function saveContent() {
     const json = JSON.stringify(cleanContent, null, 2) + "\n";
     await putFile("content.json", utf8ToBase64(json), "Update site content", contentSha);
     setStatus("保存成功。GitHub Pages 正在自动更新，通常几十秒后刷新公开页面即可看到新内容。\n\n公开页面：https://carrol-shield.github.io/film-journey-letter/");
-    state.photoFiles.clear();
   } catch (error) {
     setStatus(`保存失败：${error.message}`);
   }
