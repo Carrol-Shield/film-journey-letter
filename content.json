@@ -77,7 +77,15 @@
     "buttonText": "打开这封信",
     "paperDate": "写给你",
     "dialogTitle": "亲爱的你",
-    "body": "亲爱的你：\n\n这里先放一封示例信。等你把真正想写的文字发给我，或者直接替换这个 loveletter.txt，网页里的信纸就会显示新的内容。\n\n我想把我们走过的地方都慢慢存起来。不是因为每一天都盛大，而是因为和你有关的普通瞬间，也会在回忆里发光。\n\n愿这首歌响起的时候，你能想起某一个温柔的傍晚，想起有人认真地把你放在心上。\n\n一直想念你的人"
+    "encryptedBody": {
+      "version": 1,
+      "algorithm": "AES-GCM",
+      "kdf": "PBKDF2-SHA256",
+      "iterations": 180000,
+      "salt": "4Bf9KJ1Fx5j6eXb97Y4fVQ==",
+      "iv": "caEjQ2us+UPbHBHA",
+      "ciphertext": "jKkuRfH2jT0Y39EAnobDnSKLaArDBaaqz+wnmsLh/IvlWRDt6eopHVFszMTG6kuyCPtBBwbrZIQAfLzzgv0eRj54AG7FkVVZPKq8TLKXr4zAPUVG2TyGam+7DkqMo37um6FtHKhHOUHZn/KLUotX50T9+JqacaPNQiYvlCXPHcitEufvVtbHOzuULa6VLtvMzcTlMl7GPKVS1uWFYj5yISkViR39uBc58sBjSMblDS0oa2qqAK0vo30jKaDCE7OMNizHHkrNYvC74IMgHXqS1iEphdbjL3bLTmKUyPeUJY3V1NmZe9wTJ+E/2Tx69CvUqSSHZ/6Wx3IUq1GU/XbPf1huNa2JaOaaeHsvyZUjXAeNh2rJJj4tf3lyuWeVxX+ylPRQ7T6kU1PiQb/N53PIyDteGGj+qFZrDH60ovo//ff8Z7cPnIxO0ltMdxCdPrRIsL4au4BfJA5YDeeIRgwkytnQ/czrv2vRwhcGKf3Q6yDJzXnxSxhCDTcWI6Dy0Hbe5tLycftJBJ0iNCGqFw5HVgryM/6qDGMJmAdFcCxkB6kCvdLoIBt5m/Lf3J6rnUU6fWMcu9OOI0qQh8JO6vTGZvQOzoIzspRxTfksvf4mFHu3tNdc+QBCZ6YJRa7kHPenE5N6"
+    }
   },
   "admin": {
     "repository": "Carrol-Shield/film-journey-letter",

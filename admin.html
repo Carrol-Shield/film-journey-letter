@@ -89,6 +89,13 @@
             <input data-path="letter.dialogTitle" />
           </label>
         </div>
+        <div class="grid two letter-lock-row">
+          <label>信件密码
+            <input id="letterPasswordInput" type="password" placeholder="输入 260111 解锁或保存信件正文" autocomplete="off" />
+          </label>
+          <button type="button" id="unlockLetterBody" class="secondary inline-action">解锁信件正文</button>
+        </div>
+        <p class="hint">信件正文会用这个密码加密后保存。公开页面输入同一个密码才能打开信件。</p>
         <label>信件全部正文
           <textarea data-path="letter.body" rows="12"></textarea>
         </label>

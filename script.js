@@ -43,6 +43,47 @@ function setText(selector, value) {
   if (element) element.textContent = value || "";
 }
 
+function base64ToBytes(base64) {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+  return bytes;
+}
+
+async function deriveLetterKey(password, saltBase64, iterations = 180000) {
+  const passwordKey = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(password),
+    "PBKDF2",
+    false,
+    ["deriveKey"],
+  );
+  return crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt: base64ToBytes(saltBase64),
+      iterations,
+      hash: "SHA-256",
+    },
+    passwordKey,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["decrypt"],
+  );
+}
+
+async function decryptLetter(encryptedBody, password) {
+  const key = await deriveLetterKey(password, encryptedBody.salt, encryptedBody.iterations);
+  const decrypted = await crypto.subtle.decrypt(
+    { name: "AES-GCM", iv: base64ToBytes(encryptedBody.iv) },
+    key,
+    base64ToBytes(encryptedBody.ciphertext),
+  );
+  return new TextDecoder().decode(decrypted);
+}
+
 function renderTimeline(items = []) {
   timelineEl.innerHTML = "";
   items.forEach((item, index) => {
@@ -128,12 +169,32 @@ async function loadContent() {
   }
 }
 
-function openLetter() {
+async function getLetterBody() {
+  const encryptedBody = pageContent.letter?.encryptedBody;
+  if (!encryptedBody) {
+    return text(pageContent.letter?.body, fallbackContent.letter.body);
+  }
+
+  const password = window.prompt("请输入信件密码");
+  if (password === null) return null;
+
+  try {
+    return await decryptLetter(encryptedBody, password);
+  } catch (error) {
+    window.alert("密码不正确，暂时不能打开这封信。");
+    return null;
+  }
+}
+
+async function openLetter() {
+  const body = await getLetterBody();
+  if (body === null) return;
+
   lastFocusedElement = document.activeElement;
   letterModal.classList.add("is-open");
   letterModal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
-  letterContent.textContent = text(pageContent.letter?.body, fallbackContent.letter.body);
+  letterContent.textContent = body;
   closeLetterButton.focus();
 }
 

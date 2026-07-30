@@ -71,3 +71,7 @@ button, .ghost-link {
   .admin-header, .section-title-row, .actions { align-items: stretch; flex-direction: column; }
   .grid.two, .photo-row { grid-template-columns: 1fr; }
 }
+.inline-action {
+  align-self: end;
+  min-height: 45px;
+}
