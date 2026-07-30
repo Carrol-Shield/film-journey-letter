@@ -78,6 +78,23 @@
       "place": "洛阳 · 街道上",
       "reverse": false,
       "text": ""
+    },
+    {
+      "photos": [
+        {
+          "src": "photos/1785410393551-5-2.jpg",
+          "alt": ""
+        },
+        {
+          "src": "photos/1785410397599-5-1.jpg",
+          "alt": ""
+        }
+      ],
+      "id": "05",
+      "date": "2026.05-06 · 清晨",
+      "place": "深圳 · 我们的家",
+      "reverse": false,
+      "text": ""
     }
   ],
   "letter": {
